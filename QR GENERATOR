@@ -1,0 +1,41 @@
+import qrcode
+from PIL import Image
+import matplotlib.pyplot as plt
+
+def generate_qr_code(data):
+    """Generates and displays a QR code from the given data."""
+    # Create a QR code instance
+    qr = qrcode.QRCode(
+        version=1,  # Controls the size of the QR Code (1 is the smallest)
+        error_correction=qrcode.constants.ERROR_CORRECT_L,  # Error correction level
+        box_size=10,  # Size of each box in pixels
+        border=4,  # Thickness of the border
+    )
+    
+    # Add data to the QR code
+    qr.add_data(data)
+    qr.make(fit=True)  # Adjust the size of the QR code to fit the data
+
+    # Create an image from the QR code
+    img = qr.make_image(fill='black', back_color='white')
+    
+    # Display the QR code using matplotlib
+    plt.figure(figsize=(5, 5))
+    plt.imshow(img, cmap='gray')
+    plt.axis('off')  # Hide the axis
+    plt.show()
+
+# Main function to run the loop
+def main():
+    while True:
+        data = input("Enter the data or URL for the QR code: ")
+        generate_qr_code(data)
+        
+        # Ask the user if they want to create another QR code
+        another = input("Do you want to create another QR code? (yes/no): ").strip().lower()
+        if another != 'yes':
+            print("Ending the session.")
+            break
+
+# Start the program
+main()
